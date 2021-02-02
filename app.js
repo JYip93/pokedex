@@ -27,7 +27,7 @@ const displayPokemon = (pokemon) => {
 
       <img src='${mon.image}'>
 
-     <h2 class='card-name'> ${mon.id} ${mon.name}</h2> 
+     <h2 class='card-name'> ${mon.id}. ${mon.name}</h2> 
 
       <p class='card-type'>Type: ${mon.type}</p>
 
