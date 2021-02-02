@@ -1,15 +1,14 @@
 const pokedex = document.getElementById("pokedex");
+const searchBar = document.getElementById("searchBar");
+
 const fetchPokemon = () => {
   promises = [];
   for (let i = 1; i <= 150; i++) {
     const url = `https://pokeapi.co/api/v2/pokemon/${i}`;
     promises.push(fetch(url).then((res) => res.json()));
-
-    // console.log(promises);
   }
 
   Promise.all(promises).then((results) => {
-    // console.log(results);
     const pokemon = results.map((data) => ({
       id: data.id,
       name: data.name,
@@ -17,6 +16,18 @@ const fetchPokemon = () => {
       type: data.types.map((type) => type.type.name).join(", "),
     }));
     displayPokemon(pokemon);
+    searchPokemon(pokemon);
+  });
+};
+
+const searchPokemon = (pokemonList) => {
+  searchBar.addEventListener("keyup", (e) => {
+    const searchedString = e.target.value;
+    console.log(searchedString);
+    const filteredPokemon = pokemonList.filter((obj) => {
+      return obj.name.includes(searchedString);
+    });
+    displayPokemon(filteredPokemon);
   });
 };
 
@@ -36,19 +47,5 @@ const displayPokemon = (pokemon) => {
     .join("");
   pokedex.innerHTML = html;
 };
-//   .then((data) => {
-//     console.log(data);
-//     const pokemon = {
-//       id: data.id,
-//       name: data.name,
-//       image: data.sprites["front_default"],
-//       type: data.types
-//         .map((type) => {
-//           return type.type.name;
-//         })
-//         .join(", "),
-//     };
-//     console.log(pokemon);
-//   });
 
 fetchPokemon();
